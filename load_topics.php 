@@ -1,0 +1,19 @@
+<?php
+// load_topics.php
+
+$messages = file_get_contents('messages.txt');
+$messages = explode("\n", $messages);
+
+foreach ($messages as $message) {
+    if (!empty($message)) {
+        $data = json_decode($message, true);
+        echo '
+            <div class="topic">
+                <h3>' . $data['username'] . '</h3>
+                <p>' . nl2br($data['message']) . '</p>
+                <button class="delete-btn" data-message-id="' . $data['id'] . '">Delete</button>
+            </div>
+        ';
+    }
+}
+?>

@@ -1,0 +1,28 @@
+<?php
+// delete_message.php
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $messageId = $_POST['messageId'];
+
+    // メッセージの削除（実際のアプリケーションではデータベースを使用）
+    $messages = file_get_contents('messages.txt');
+    $messages = explode("\n", $messages);
+
+    $updatedMessages = [];
+    foreach ($messages as $message) {
+        if (!empty($message)) {
+            $data = json_decode($message, true);
+            if ($data['id'] !== $messageId) {
+                $updatedMessages[] = $message;
+            }
+        }
+    }
+
+    $updatedMessages = implode("\n", $updatedMessages);
+    file_put_contents('messages.txt', $updatedMessages);
+
+    echo 'success';
+} else {
+    echo 'failure';
+}
+?>
